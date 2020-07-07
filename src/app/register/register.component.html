@@ -1,0 +1,66 @@
+<div style="width: 100%;height: 100%;">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 text-center">Registration Form
+            <div class="row">
+                <div class="col-3">
+                    <label for="name" class="form-group">Name:</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" name="name" id="" class="form-control" [(ngModel)]='name'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="username" class="form-group">Username:</label>
+                </div>
+                <div class="col-9">
+                    <input type="email" name="username" id="" class="form-control" [(ngModel)]='username'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="password" class="form-group">Password:</label>
+                </div>
+                <div class="col-9">
+                    <input type="password" name="password" id="" class="form-control" [(ngModel)]='password'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="repassword" class="form-group">Re-enter Password:</label>
+                </div>
+                <div class="col-9">
+                    <input type="password" name="repassword" id="" class="form-control" [(ngModel)]='repassword'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="rollno" class="form-group">Roll number:</label>
+                </div>
+                <div class="col-9">
+                    <input type="string" name="rollno" id="" class="form-control" [(ngModel)]='rollno'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="phno" class="form-group">Phone number:</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" name="phno" id="" class="form-control" [(ngModel)]='phno'>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-3">
+                </div>
+                <div class="col-6 text-center">
+                    <button class="btn btn-success" (click)='register()'>Register</button>
+                </div>
+                <div class="col-3">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
