@@ -16,6 +16,9 @@ authapi=exp.Router()
 //parsing the req body
 authapi.use(exp.json())
 
+//importing verifyToken middleware
+const verifyToken=require('../middlewares/verifyToken')
+
 authapi.post('/forgotpassword',(req,res)=>{
     userCollection=req.app.locals.usercollection
     userCollection.findOne({username:req.body.username},(err,userObj)=>{
@@ -38,34 +41,78 @@ authapi.post('/forgotpassword',(req,res)=>{
                 else
                 {
                     resetCollection=req.app.locals.resetpasswordcollection
-                    resetCollection.insertOne({createdAt:new Date(),username:req.body.username,otp:hashedOtp},(err,obj)=>{
+                    resetCollection.findOne({username:req.body.username},(err,otpObj)=>{
                         if(err)
                         {
-                            console.log('error while storing the otp in db',err)
+                            console.log('Error while checking otp records',err)
                         }
-                        else
+                        else if(otpObj==null)
                         {
-                            transporter=nodemailer.createTransport({
-                                service:'gmail',
-                                auth:{
-                                    user:process.env.gmailusername,
-                                    pass:process.env.gmailpassword
-                                }
-                            })
-                            mailoptions={
-                                from:'electrnica.ekart@gmail.com',
-                                to:req.body.username,
-                                subject:'Otp for resetting your Lost and Found account password',
-                                html:'<p>Your otp is '+otp+'. It expires in 5 minutes</p>'
-                            }
-                            transporter.sendMail(mailoptions,(err,info)=>{
+                            resetCollection.insertOne({createdAt:new Date(),username:req.body.username,otp:hashedOtp},(err,obj)=>{
                                 if(err)
                                 {
-                                    console.log('error while sending the email',err)
+                                    console.log('error while storing the otp in db',err)
                                 }
                                 else
                                 {
-                                    res.send({message:'opt sent',username:req.body.username})
+                                    transporter=nodemailer.createTransport({
+                                        service:'gmail',
+                                        auth:{
+                                            user:process.env.gmailusername,
+                                            pass:process.env.gmailpassword
+                                        }
+                                    })
+                                    mailoptions={
+                                        from:'electrnica.ekart@gmail.com',
+                                        to:req.body.username,
+                                        subject:'Otp for resetting your Lost and Found account password',
+                                        html:'<p>Your otp is '+otp+'. It expires in 5 minutes</p>'
+                                    }
+                                    transporter.sendMail(mailoptions,(err,info)=>{
+                                        if(err)
+                                        {
+                                            console.log('error while sending the email',err)
+                                        }
+                                        else
+                                        {
+                                            res.send({message:'opt sent',username:req.body.username})
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                        else
+                        {
+                            resetCollection.updateOne({username:req.body.username},{$set:{otp:hashedOtp}},(err,updateStatus)=>{
+                                if(err)
+                                {
+                                    console.log('error while updating the otp',err)
+                                }
+                                else
+                                {
+                                    transporter=nodemailer.createTransport({
+                                        service:'gmail',
+                                        auth:{
+                                            user:process.env.gmailusername,
+                                            pass:process.env.gmailpassword
+                                        }
+                                    })
+                                    mailoptions={
+                                        from:'electrnica.ekart@gmail.com',
+                                        to:req.body.username,
+                                        subject:'Otp for resetting your Lost and Found account password',
+                                        html:'<p>Your otp is '+otp+'. It expires in 5 minutes</p>'
+                                    }
+                                    transporter.sendMail(mailoptions,(err,info)=>{
+                                        if(err)
+                                        {
+                                            console.log('error while sending the email',err)
+                                        }
+                                        else
+                                        {
+                                            res.send({message:'opt sent',username:req.body.username})
+                                        }
+                                    })
                                 }
                             })
                         }
@@ -142,6 +189,98 @@ authapi.post('/resetpassword',(req,res)=>{
     })
 })
 
+//change admin password
+authapi.post('/changeadminpassword',verifyToken,(req,res)=>{
+    adminCollectionObj=req.app.locals.admincollection
+    adminCollectionObj.findOne({username:req.body.username},(err,adminObj)=>{
+        if(err)
+        {
+            console.log('error while checking for the user',err)
+        }
+        else
+        {
+            bcrypt.compare(req.body.password,adminObj.password,(err,hashed)=>{
+                if(err)
+                {
+                    console.log('error while matching the passwords',err)
+                }
+                else if(hashed==false)
+                {
+                    bcrypt.hash(req.body.password,7,(err,hashedPassword)=>{
+                        if(err)
+                        {
+                            console.log('err while hashing the password')
+                        }
+                        else
+                        {
+                            adminCollectionObj.updateOne({username:req.body.username},{$set:{password:hashedPassword}},(err,status)=>{
+                                if(err)
+                                {
+                                    console.log('error while changing the password')
+                                }
+                                else
+                                {
+                                    res.send({message:'Password change successfully'})
+                                }
+                            })
+                        }
+                    })
+                }
+                else
+                {
+                    res.send({message:'You cannot keep the new password as the current password'})
+                }
+            })
+        }
+    })
+})
+
+
+//change user password
+authapi.post('/changeuserpassword',verifyToken,(req,res)=>{
+    userCollectionObj=req.app.locals.usercollection
+    userCollectionObj.findOne({username:req.body.username},(err,userObj)=>{
+        if(err)
+        {
+            console.log('error while checking for the user',err)
+        }
+        else
+        {
+            bcrypt.compare(req.body.password,userObj.password,(err,hashed)=>{
+                if(err)
+                {
+                    console.log('error while matching the passwords',err)
+                }
+                else if(hashed==false)
+                {
+                    bcrypt.hash(req.body.password,7,(err,hashedPassword)=>{
+                        if(err)
+                        {
+                            console.log('err while hashing the password')
+                        }
+                        else
+                        {
+                            userCollectionObj.updateOne({username:req.body.username},{$set:{password:hashedPassword}},(err,status)=>{
+                                if(err)
+                                {
+                                    console.log('error while changing the password')
+                                }
+                                else
+                                {
+                                    res.send({message:'Password change successfully'})
+                                }
+                            })
+                        }
+                    })
+                }
+                else
+                {
+                    res.send({message:'You cannot keep the new password as the current password'})
+                }
+            })
+        }
+    })
+})
 
 //exporting the route for authapi
 module.exports=authapi

@@ -8,11 +8,15 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {FormsModule} from '@angular/forms'
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AdminloginComponent } from './adminlogin/adminlogin.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { VerifyotpComponent } from './verifyotp/verifyotp.component';
+import { HttpinterceptorService } from './httpinterceptor.service';
+import {StoreModule} from '@ngrx/store';
+import {PanelModule} from 'primeng/panel';
+
 
 @NgModule({
   declarations: [
@@ -30,10 +34,18 @@ import { VerifyotpComponent } from './verifyotp/verifyotp.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({}),
+    PanelModule
     
   ],
-  providers: [],
+  providers: [
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:HttpinterceptorService,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

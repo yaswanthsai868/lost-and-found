@@ -1,0 +1,29 @@
+
+<div style="width: 100%;height: 100%;">
+    <div *ngIf='!dataAvailable' class="Aligner" style="height: 100%;">
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+    </div>
+    <div *ngIf=dataAvailable>
+        <p-panel header='Remove Admin Account'>
+            <div class="row">
+                <div class="col-4 text-right">
+                    <label for='email'  style="position: relative;top:20%" class="form-group">Enter Email of admin:</label>
+                </div>
+                <div class="col-6">
+                    <input type="email" name="email" id="" [(ngModel)]='username' class="form-control">
+                </div>
+                <div class="col-2">
+            
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-3"></div>
+                <div class="col-6 text-center">
+                    <button class="btn btn-danger" (click)='deleteAdmin()'>Delete Account</button>
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>

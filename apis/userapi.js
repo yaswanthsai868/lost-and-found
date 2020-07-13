@@ -13,6 +13,13 @@ userapi=exp.Router()
 //for parsing the body of the request
 userapi.use(exp.json())
 
+//using dotenv
+require('dotenv').config()
+
+//middleware for the authorization
+const verifyToken=require('../middlewares/verifyToken')
+
+
 //user registration
 userapi.post('/register',(req,res)=>{
     userCollectionObj=req.app.locals.usercollection
@@ -125,33 +132,53 @@ userapi.post('/login',(req,res)=>{
 })
 
 //updating user details
-userapi.post('/changedetails',(req,res)=>{
+userapi.post('/modifydetails',verifyToken,(req,res)=>{
     userCollectionObj=req.app.locals.usercollection
-    userCollectionObj.findOne({username:req.body.username},(err,usrObj)=>{
+    userCollectionObj.findOne({$and:[{username:{$not:{$eq:req.body.username}}},{$or:[{phno:req.body.phno},{rollno:req.body.rollno}]}]},(err,obj)=>{
         if(err)
         {
-            console.log('error in verify the user',err)
+            console.log('Error while checking duplication of data',err)
         }
-        else if(usrObj==null)
+        else if(obj==null)
         {
-            res.send({message:'invalid user'})
-        }
-        else
-        {
-            userCollectionObj.updateOne({username:req.body.username},{$set:{phno:req.body.phno,rollno:req.body.rollno}},(err,Obj)=>{
+            userCollectionObj.updateOne({username:req.body.username},{$set:{name:req.body.name,phno:req.body.phno,rollno:req.body.rollno}},(err,userObj)=>{
                 if(err)
                 {
-                    console.log('error in replacing the details',err)
+                    console.log('error while updating details',err)
                 }
                 else
                 {
                     res.send({message:'Details updated successfully'})
                 }
-
             })
+        }
+        else if(obj.phno==req.body.phno)
+        {
+            res.send({message:'Phone number already registered'})
+        }
+        else
+        {
+            res.send({message:'Roll number already registered'})
+        }
+    });
+})
+//to get userdetails
+userapi.get('/name/:username',verifyToken,(req,res)=>{
+    userCollectionObj=req.app.locals.usercollection
+    userCollectionObj.findOne({username:req.params.username},(err,userObj)=>{
+        if(err)
+        {
+            console.log('error while getting admin name',err)
+        }
+        else
+        {
+            res.send({message:'details sent successfully',details:userObj})
         }
     })
 })
 
-//exporting admin api route
+
+
+
+//exporting user api route
 module.exports=userapi

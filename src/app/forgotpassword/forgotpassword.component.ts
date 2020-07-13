@@ -10,9 +10,11 @@ import { Router } from '@angular/router';
 export class ForgotpasswordComponent{
 
   username:string;
+  otpSent=true
   constructor(private forgotPasswordService:ForgotpasswordserviceService,private router:Router) { }
   resetPassword()
   {
+    this.otpSent=false
     this.forgotPasswordService.requestOtp(this.username).subscribe((res)=>{
       if(res['message']==='user not found')
       {
@@ -21,8 +23,9 @@ export class ForgotpasswordComponent{
       else
       {
         alert('Otp has been sent to your mail')
-        this.router.navigate(['./verifyotp',res['username']])
+        this.router.navigate(['/home/verifyotp',res['username']])
       }
+      this.otpSent=true
     })
   }
 }

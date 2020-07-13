@@ -16,11 +16,14 @@ export class RegisterComponent {
   repassword:string;
   phno:string;
   rollno:string;
+  display=true
   register()
   {
+    this.display=false
     if(this.password!=this.repassword)
     {
       alert('passwords donot match')
+      this.display=true
     }
     else
     {
@@ -30,6 +33,7 @@ export class RegisterComponent {
     obj['password']=this.password
     obj['phno']=this.phno
     obj['rollno']=this.rollno.toString()
+    obj['img']='https://res.cloudinary.com/duobggr1v/image/upload/v1594493943/defaultprofilepic/user_hku7jy.jpg'
     this.registerService.doRegister(obj).subscribe((res)=>{
       if(res['message']==='username already exists')
       {
@@ -46,8 +50,9 @@ export class RegisterComponent {
       else
       {
         alert(res['message'])
-        this.router.navigateByUrl('/login')
+        this.router.navigateByUrl('/home/login')
       }
+      this.display=true
     })
       
     }

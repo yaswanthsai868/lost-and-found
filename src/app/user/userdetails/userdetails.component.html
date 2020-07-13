@@ -1,0 +1,23 @@
+<div style="height: 100%;width: 100%;">
+    <div *ngIf='!dataAvaliable' class="Aligner" style="height: 100%;">
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+
+    </div>
+    <div *ngIf='dataAvaliable'>
+        <p-panel header='Account Details'>
+            <div class="row">
+                <div class="col-8">
+                    <p>Username: {{userDetails.name}}</p>
+                    <p>Email: {{userDetails.username}}</p>
+                    <p>Roll Number: {{userDetails.rollno}}</p>
+                    <p>Phone Number: {{userDetails.phno}}</p>
+                </div>
+                <div class="col-4 text-center" >
+                    <img [src]="userDetails.img" alt="profile Image">
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>

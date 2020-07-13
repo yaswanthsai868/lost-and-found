@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
 export class AdminloginComponent {
 
   constructor(private loginService:LoginService,private router:Router) { }
-
+  display=true
   username:string;
   password:string;
   logIn()
   {
-    this.loginService.doUserLogin(this.username,this.password).subscribe((res)=>{
+    this.display=false
+    this.loginService.doAdminLogin(this.username,this.password).subscribe((res)=>{
       if(res['message']==='Invalid credentials username')
       {
         alert('Invalid username')
@@ -27,8 +28,9 @@ export class AdminloginComponent {
       else
       {
         localStorage.setItem('token',res['webtoken'])
-        this.router.navigate(['/admin/admindashboard',res['username']])
+        this.router.navigate(['/admin/loaddata',res['username']])
       }
+      this.display=true
     })
   }
 }

@@ -14,29 +14,34 @@ export class VerifyotpComponent implements OnInit{
     private forgotPasswordService:ForgotpasswordserviceService,private router:Router) { }
   username:string;
   otp:string;
+  verifying=false
   ngOnInit()
   {
+    this.verifying=false
     this.activatedroute.paramMap.subscribe((result)=>{
       this.username=result.get('username')
+      this.verifying=true
     })
   }
   resendOtp()
   {
+    this.verifying=false
     this.forgotPasswordService.requestOtp(this.username).subscribe((res)=>{
       if(res['message']==='user not found')
       {
         alert('Please enter valid username')
         this.router.navigateByUrl('./forgotpassword')
-
       }
       else
       {
         alert('New Otp has been sent to your mail')
       }
+      this.verifying=true
     })
   }
   verifyOtp()
   {
+    this.verifying=false
     let obj={};
     obj['username']=this.username
     obj['otp']=this.otp
@@ -47,13 +52,14 @@ export class VerifyotpComponent implements OnInit{
       }
       else if(res['message']==='Incorrect Otp')
       {
-        alert('Please enter correct password')
+        alert('Please enter correct Otp')
       }
       else
       {
         alert(res['message'])
-        this.router.navigate(['./resetpassword',this.username])
+        this.router.navigate(['/home/resetpassword',this.username])
       }
+      this.verifying=true
     })
   }
 

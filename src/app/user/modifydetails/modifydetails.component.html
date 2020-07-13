@@ -1,0 +1,46 @@
+<div style="height: 100%;width: 100%;">
+    <div *ngIf='!dataAvailable' class="Aligner" style="height: 100%;">
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+
+    </div>
+    <div *ngIf='dataAvailable'>
+        <p-panel header='Edit Account Details'>
+            <div class="row mb-1">
+                <div class="col-3 text-right">
+                    <label for="name" class="form-group">Username:</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" name="name" id="" class="form-control" [(ngModel)]='name'>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-3 text-right">
+                    <label for="rollno" class="form-group">Roll number:</label>
+                </div>
+                <div class="col-9">
+                    <input type="string" name="rollno" id="" class="form-control" [(ngModel)]='rollno'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 text-right">
+                    <label for="phno" class="form-group">Phone number:</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" name="phno" id="" class="form-control" [(ngModel)]='phno'>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-3">
+                </div>
+                <div class="col-6 text-center">
+                    <button class="btn btn-success" (click)='changeDetails()'>Change Details</button>
+                </div>
+                <div class="col-3">
+
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>

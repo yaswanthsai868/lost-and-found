@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userdashboard',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserdashboardComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private store:Store<any>,private router:Router) {}
+  userName;
+  dataAvailable=false
   ngOnInit() {
+    this.dataAvailable=false
+    this.store.select('userData').subscribe(data=>{
+      this.userName=data.userData.name
+      this.dataAvailable=true
+    })
+  }
+  doLogOut()
+  {
+    localStorage.removeItem('token')
+    this.router.navigateByUrl('/home')
   }
 
 }

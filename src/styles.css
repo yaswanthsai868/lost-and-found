@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+.Aligner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .Aligner-item {
+    max-width: 50%;
+  }
+  body {
+    margin: 0;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    font-family: "Times New Roman", Times, serif;
+  }

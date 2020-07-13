@@ -1,6 +1,9 @@
 //importing exress modeule
 const exp=require('express')
 
+//importing the middleware
+const verifyToken=require('../middlewares/verifyToken')
+
 //importing json web token
 const jwt=require('jsonwebtoken')
 
@@ -14,35 +17,67 @@ adminapi=exp.Router()
 adminapi.use(exp.json())
 
 //add admin account
-adminapi.post('/addaccount',(req,res)=>{
+adminapi.post('/addaccount',verifyToken,(req,res)=>{
     adminCollectionObj=req.app.locals.admincollection
-    adminCollectionObj.findOne({username:req.body.username},(err,adminObj)=>{
+    //checking username existance
+    adminCollectionObj.findOne({username:req.body.username},(err,dbobj)=>{
         if(err)
         {
-            console.log('error while checking the admin username',err)
+            console.log('error while checking username',err)
         }
-        else if(adminObj!=null)
+        else if(dbobj!=null)
         {
-            res.send({message:'username is already a admin'})
+            res.send({message:'username is already admin'})
         }
         else
         {
-            bcrypt.hash(req.body.password,7,(err,hashedPassword)=>{
+            //checking roll number existance
+            adminCollectionObj.findOne({rollno:req.body.rollno},(err,obj)=>{
                 if(err)
                 {
-                    console.log('error while hashing admin password',err)
+                    console.log('error while checking the roll no',err)
+                }
+                else if(obj!=null)
+                {
+                    res.send({message:'Roll number already registered'})
                 }
                 else
                 {
-                    req.body.password=hashedPassword
-                    adminCollectionObj.insertOne(req.body,(err,Obj)=>{
+                    //checking phone number existance
+                    adminCollectionObj.findOne({phno:req.body.phno},(err,lobj)=>{
                         if(err)
                         {
-                            console.log('error in inserting the admin username')
+                            console.log('error while checking the phno',err)
+                        }
+                        else if(lobj!=null)
+                        {
+                            res.send({message:'Phone number already registered'})
                         }
                         else
                         {
-                            res.send({message:'admin account added successfully'})
+                            //hashing the passwaord
+                            bcrypt.hash(req.body.password,7,(err,hashedPassword)=>{
+                                if(err)
+                                {
+                                    console.log('error while hashing the password',err)
+                                }
+                                else
+                                {
+                                    req.body.password=hashedPassword
+                                    //registering the user
+                                    adminCollectionObj.insertOne(req.body,(err,insertedobj)=>{
+                                        if(err)
+                                        {
+                                            console.log('error while insertion',err)
+                                        }
+                                        else
+                                        {
+                                            res.send({message:'Admin added successfully'})
+                                        }
+                                    })
+                                }
+                            })
+                            
                         }
                     })
                 }
@@ -52,7 +87,7 @@ adminapi.post('/addaccount',(req,res)=>{
 })
 
 //delete admin account
-adminapi.post('/removeaccount',(req,res)=>{
+adminapi.post('/removeaccount',verifyToken,(req,res)=>{
     adminCollectionObj=req.app.locals.admincollection
     adminCollectionObj.findOne({username:req.body.username},(err,adminObj)=>{
         if(err)
@@ -80,7 +115,7 @@ adminapi.post('/removeaccount',(req,res)=>{
 })
 
 //remove useraccount
-adminapi.post('/deleteaccount',(req,res)=>{
+adminapi.post('/deleteaccount',verifyToken,(req,res)=>{
     userCollectionObj=req.app.locals.usercollection
     userCollectionObj.findOne({username:req.body.username},(err,userObj)=>{
         if(err)
@@ -132,14 +167,14 @@ adminapi.post('/login',(req,res)=>{
                 }
                 else
                 {
-                    jwt.sign({username:adminObj.username,type:'admin'},process.env.hashkey,{expiresIn:10*60},(err,webToken)=>{
+                    jwt.sign({username:adminObj.username,type:'admin'},process.env.hashkey,{expiresIn:60*60},(err,webToken)=>{
                         if(err)
                         {
                             console.log('error in generating web token',err)
                         }
                         else
                         {
-                            res.send({message:'admin login success',webtoken:webToken})
+                            res.send({message:'admin login success',webtoken:webToken,username:req.body.username})
                         }
                     })
                 }
@@ -147,6 +182,55 @@ adminapi.post('/login',(req,res)=>{
         }
     })
 })
+
+//to get admin details
+adminapi.get('/name/:username',verifyToken,(req,res)=>{
+    adminCollectionObj=req.app.locals.admincollection
+    adminCollectionObj.findOne({username:req.params.username},(err,adminObj)=>{
+        if(err)
+        {
+            console.log('error while getting admin name',err)
+        }
+        else
+        {
+            res.send({message:'details sent successfully',details:adminObj})
+        }
+    })
+})
+
+
+//modify admin details
+adminapi.post('/modifydetails',verifyToken,(req,res)=>{
+    adminCollectionObj=req.app.locals.admincollection
+    adminCollectionObj.findOne({$and:[{username:{$not:{$eq:req.body.username}}},{$or:[{phno:req.body.phno},{rollno:req.body.rollno}]}]},(err,obj)=>{
+        if(err)
+        {
+            console.log('Error while checking duplication of data',err)
+        }
+        else if(obj==null)
+        {
+            adminCollectionObj.updateOne({username:req.body.username},{$set:{name:req.body.name,phno:req.body.phno,rollno:req.body.rollno}},(err,adminObj)=>{
+                if(err)
+                {
+                    console.log('error while updating details',err)
+                }
+                else
+                {
+                    res.send({message:'Details updated successfully'})
+                }
+            })
+        }
+        else if(obj.phno==req.body.phno)
+        {
+            res.send({message:'Phone number already registered'})
+        }
+        else
+        {
+            res.send({message:'Roll number already registered'})
+        }
+    });
+})
+
 
 //exporting admin api route
 module.exports=adminapi

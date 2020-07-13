@@ -12,12 +12,14 @@ export class LoginComponent{
   constructor(private loginService:LoginService,private router:Router) { }
   username:string;
   password:string;
+  display=true;
   forgotPassword()
   {
-    this.router.navigateByUrl('/forgotpassword')
+    this.router.navigateByUrl('/home/forgotpassword')
   }
   logIn()
   {
+    this.display=false
     this.loginService.doUserLogin(this.username,this.password).subscribe((res)=>{
       if(res['message']==='Invalid credentials username')
       {
@@ -30,8 +32,9 @@ export class LoginComponent{
       else
       {
         localStorage.setItem('token',res['webtoken'])
-        this.router.navigate(['/user/userdashboard',res['username']])
+        this.router.navigate(['/user/loaddata',res['username']])
       }
+      this.display=true
     })
   }
 }

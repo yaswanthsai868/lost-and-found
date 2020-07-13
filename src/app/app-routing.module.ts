@@ -11,13 +11,14 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 
 const routes: Routes = [
   {path:'',pathMatch:'full',redirectTo:'/home'},
-  {path:'home',component:HomeComponent},
-  {path:'login',component:LoginComponent},
-  {path:'register',component:RegisterComponent},
-  {path:'adminlogin',component:AdminloginComponent},
-  {path:'forgotpassword',component:ForgotpasswordComponent},
-  {path:'verifyotp/:username',component:VerifyotpComponent},
-  {path:'resetpassword/:username',component:ResetpasswordComponent},
+  {path:'home',component:HomeComponent,children:[
+    {path:'login',component:LoginComponent},
+    {path:'register',component:RegisterComponent},
+    {path:'adminlogin',component:AdminloginComponent},
+    {path:'forgotpassword',component:ForgotpasswordComponent},
+    {path:'verifyotp/:username',component:VerifyotpComponent},
+    {path:'resetpassword/:username',component:ResetpasswordComponent},
+]},
   {path:'user',loadChildren:'./user/user.module#UserModule'},
   {path:'admin',loadChildren:'./admin/admin.module#AdminModule'}
 ];
