@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GettransactionsService } from 'src/app/gettransactions.service';
 
 @Component({
   selector: 'app-objectstransaction',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ObjectstransactionComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router:Router,private transactionService:GettransactionsService) { }
+  dataAvailable=false
+  exchangedObjects;
   ngOnInit(): void {
+    this.dataAvailable=false
+    this.transactionService.getTransactions().subscribe(res=>{
+      if(res['message']=='please login')
+        {
+          alert('please login')
+          this.router.navigateByUrl('/home/adminlogin')
+        }
+        else if(res['message']=='please relogin')
+        {
+          alert('Session has expired please login')
+          this.router.navigateByUrl('/home/adminlogin')
+        }
+        else
+        {
+          this.exchangedObjects=res['data']
+        }
+      this.dataAvailable=true
+    })
+    
   }
+  getdetails(ObjectData)
+    {
+      this.router.navigate(['/admin/admindashboard/transactiondetails',ObjectData._id])
+    }
 
 }

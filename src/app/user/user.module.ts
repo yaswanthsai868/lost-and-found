@@ -15,16 +15,27 @@ import { ModifydetailsComponent } from './modifydetails/modifydetails.component'
 import { ChangepasswordComponent } from './changepassword/changepassword.component'
 import {FormsModule} from '@angular/forms'
 import {DropdownModule} from 'primeng/dropdown'
+import {InputTextModule} from 'primeng/inputtext'
+import {CalendarModule} from 'primeng/calendar'
+import {InputMaskModule} from 'primeng/inputmask'
+import {CardModule} from 'primeng/card';
+import { UploadedItemdetailsComponent } from './uploaded-itemdetails/uploaded-itemdetails.component';
+import { DetailsmatchingComponent } from './detailsmatching/detailsmatching.component';
+import { ReturnotpComponent } from './returnotp/returnotp.component'
 
 @NgModule({
-  declarations: [UserdashboardComponent, LoaddataComponent, UserdetailsComponent, UploadfounditemComponent, UploadeditemsComponent, FindlostitemComponent, ModifydetailsComponent, ChangepasswordComponent],
+  declarations: [UserdashboardComponent, LoaddataComponent, UserdetailsComponent, UploadfounditemComponent, UploadeditemsComponent, FindlostitemComponent, ModifydetailsComponent, ChangepasswordComponent, UploadedItemdetailsComponent, DetailsmatchingComponent, ReturnotpComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
     StoreModule.forFeature('userData',userLoginReducer),
     PanelModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    InputTextModule,
+    CalendarModule,
+    InputMaskModule,
+    CardModule
   ]
 })
 export class UserModule { }

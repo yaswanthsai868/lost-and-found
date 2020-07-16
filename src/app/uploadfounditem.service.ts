@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UploadprofilepicService {
+export class UploadfounditemService {
 
   constructor(private http:HttpClient) { }
-  uploadImage(formObj):Observable<any>
+  uploadItem(foundObj):Observable<any>
   {
-    return this.http.post('/user/uploadprofilepic',formObj)
+    return this.http.post('/user/uploadfounditem',foundObj)
   }
 }

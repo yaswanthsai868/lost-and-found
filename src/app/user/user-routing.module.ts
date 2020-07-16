@@ -8,6 +8,9 @@ import { UploadfounditemComponent } from './uploadfounditem/uploadfounditem.comp
 import { FindlostitemComponent } from './findlostitem/findlostitem.component';
 import { ModifydetailsComponent } from './modifydetails/modifydetails.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { UploadedItemdetailsComponent } from './uploaded-itemdetails/uploaded-itemdetails.component';
+import { DetailsmatchingComponent } from './detailsmatching/detailsmatching.component';
+import { ReturnotpComponent } from './returnotp/returnotp.component';
 
 
 
@@ -19,7 +22,10 @@ const routes: Routes = [
     {path:'uploadeditems',component:UploadeditemsComponent},
     {path:'finditems',component:FindlostitemComponent},
     {path:'modifydetails',component:ModifydetailsComponent},
-    {path:'changepassword',component:ChangepasswordComponent}
+    {path:'changepassword',component:ChangepasswordComponent},
+    {path:'uploadeditemdetails/:itemId',component:UploadedItemdetailsComponent},
+    {path:'matchingitems',component:DetailsmatchingComponent},
+    {path:'returnotp',component:ReturnotpComponent}
   ]}
 ];
 

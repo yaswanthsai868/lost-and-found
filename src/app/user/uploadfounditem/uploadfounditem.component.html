@@ -1,8 +1,74 @@
 <div style='height:100%;width:100%'>
-    <p-panel header='Upload Found Item'>
-        <div>
-            <p-dropdown [options]='type' [(ngModel)]='selectedType' placeholder='select type'></p-dropdown>
+    <div class="Aligner" *ngIf='!dataAvailable' style="height: 100%;">
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
         </div>
-        <p>{{selectedType}}</p>
+    </div>
+    <div *ngIf='dataAvailable'>
+    <p-panel header='Upload Found Item Earphones'>
+    <div class="row" *ngIf='dataAvailable'>
+        <div class="col-3">
+
+        </div>
+        <div class="col-6">
+                <div>
+                    <div class="mb-4 mt-3">
+                        <span class="ui-float-label">
+                            <input id="float-input" type="text" size="30" pInputText [(ngModel)]='brand'> 
+                            <label for="float-input">Brand</label>
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <span class="ui-float-label">
+                            <input id="float-input" type="text" size="30" pInputText [(ngModel)]='model'> 
+                            <label for="float-input">Model</label>
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <span class="ui-float-label">
+                            <input id="float-input" type="text" size="30" pInputText [(ngModel)]='color'> 
+                            <label for="float-input">Color</label>
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <span class="ui-float-label">
+                            <input id="float-input" type="text" size="30" pInputText [(ngModel)]='buttons'> 
+                            <label for="float-input">Number of Buttons</label>
+                        </span>
+                    </div>
+                    <div class="mb-4">
+                        <p-dropdown [options]='ctype' [(ngModel)]='contype' placeholder='Enter Connectivity Type'></p-dropdown>
+                    </div>
+                    <div class="mb-4">
+                        <p-dropdown [options]='etype' [(ngModel)]='eartype' placeholder='Enter Earphones Type'></p-dropdown>
+                    </div>
+                    <div class="mb-4">
+                        <p-dropdown [options]='micro' [(ngModel)]='microphone' placeholder='Has microphone'></p-dropdown>
+                    </div>
+                    <div class="mb-4">
+                        <p>Found Date</p>
+                        <p-calendar [(ngModel)]="founddate"></p-calendar>
+                    </div>
+                    <div class="mb-4">
+                        <div>Enter found time(HH:MM in 24 hrs format)</div>
+                        <p-inputMask mask="99:99" [(ngModel)]="foundtime" placeholder="14:30"></p-inputMask>
+                    </div>
+                    <div class="mb-4">
+                        <div>
+                            <p>Upload Image</p>
+                            <input type="file" name="" id="" (change)='readImage($event)'>
+                        </div>
+                        <img [src]="imageloaded" alt="" style="height: 300px;width: 300px;object-fit: contain;">
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-success" (click)='uploadItem()'>Upload Item</button>
+                    </div>
+                </div>
+        </div>
+        <div class="col-3">
+
+        </div>
+    </div>
     </p-panel>
+    </div>
 </div>

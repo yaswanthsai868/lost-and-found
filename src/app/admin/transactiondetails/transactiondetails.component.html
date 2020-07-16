@@ -1,0 +1,61 @@
+<div style="height: 100%;width: 100%;">
+    <div *ngIf='!dataAvaliable' class="Aligner" style="height: 100%;">
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+
+    </div>
+    <div *ngIf='dataAvaliable'>
+        <p-panel header='Item Details'>
+            <div class="row">
+                <div class="col-8">
+                    <p-card>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Brand: {{itemDetails.brand}}</p>
+                                <p>Model: {{itemDetails.model}}</p>
+                                <p>Connectivity: {{itemDetails.contype}}</p>
+                                <p>Earphone type: {{itemDetails.eartype}}</p>
+                                <p>Color: {{itemDetails.color}}</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Number of buttons: {{itemDetails.buttons}}</p>
+                                <p>Microphone: {{itemDetails.microphone}}</p>
+                                <p>Found Date: {{itemDetails.founddate}}</p>
+                                <p>Found Time: {{itemDetails.foundtime}}</p>
+                                <p>Product type: {{itemDetails.type}}</p>
+                            </div>
+                        </div>  
+                    </p-card>                  
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <p-card>
+                                <p-header>
+                                    <h4>Uploaded By</h4>
+                                </p-header>
+                                <p>Username:{{uploaderDetails.name}}</p>
+                                <p>Email:{{uploaderDetails.username}}</p>
+                                <p>Phone Number:{{uploaderDetails.phno}}</p>
+                                <p>Roll Number:{{uploaderDetails.rollno}}</p>
+                            </p-card>
+                        </div>
+                        <div class="col-6">
+                            <p-card>
+                                <p-header>
+                                    <h4>Claimed By</h4>
+                                </p-header>
+                                <p>Username:{{claimerDetails.name}}</p>
+                                <p>Email:{{claimerDetails.username}}</p>
+                                <p>Phone Number:{{claimerDetails.phno}}</p>
+                                <p>Roll Number:{{claimerDetails.rollno}}</p>
+                            </p-card>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 text-center" >
+                    <img [src]="itemDetails.img" alt="Item Image" height="200px" width="200px" style="object-fit: contain;">
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>

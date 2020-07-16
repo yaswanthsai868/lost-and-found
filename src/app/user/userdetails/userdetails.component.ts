@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { userLoginAction } from '../userdata.action';
-import { Router } from '@angular/router';
-import { UploadprofilepicService } from 'src/app/uploadprofilepic.service';
 
 @Component({
   selector: 'app-userdetails',
@@ -12,7 +9,7 @@ import { UploadprofilepicService } from 'src/app/uploadprofilepic.service';
 export class UserdetailsComponent implements OnInit {
 
 
-  constructor(private store:Store<any>,private router:Router,private uploadService:UploadprofilepicService) { }
+  constructor(private store:Store<any>) { }
   dataAvaliable=false
   userDetails;
   ngOnInit(): void {

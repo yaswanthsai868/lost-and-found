@@ -1,0 +1,33 @@
+<div style="height: 100%;width: 100%;">
+    <div class="Aligner" style="height: 100%;" *ngIf='!dataAvailable'>
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+    </div>
+    <div *ngIf='dataAvailable'>
+        <p-panel header='Matched Items'>
+            <div *ngIf='uploadedObjects.length==0' class="text-center">
+                <h3>No Matched Items</h3>
+            </div>
+            <div *ngIf='uploadedObjects.length!=0'>
+                <div *ngFor='let x of uploadedObjects'>
+                    <p-card>
+                        <div class="row">
+                            <div class="col-3">
+                                <img [src]="x.img" alt="itemImage" height="200px" width="300px" style="object-fit: contain;">
+                            </div>
+                            <div class="col-6">
+                                <p>Brand:{{x.brand}}</p>
+                                <p>Model:{{x.model}}</p>
+                                <p>Uploaded on:{{x.founddate}}</p>
+                            </div>
+                            <div class="col-3 text-right">
+                                <button class="btn btn-success" (click)='claimItem(x)'>Claim</button>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>

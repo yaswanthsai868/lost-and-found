@@ -1,1 +1,34 @@
-<p>objectstransaction works!</p>
+<div style="height: 100%;width: 100%;">
+    <div class="Aligner" style="height: 100%;" *ngIf='!dataAvailable'>
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+    </div>
+    <div *ngIf='dataAvailable'>
+        <p-panel header='Exchanges Done'>
+            <div *ngIf='exchangedObjects.length==0' class="text-center">
+                <h3>No Exchanges Done</h3>
+            </div>
+            <div *ngIf='exchangedObjects.length!=0'>
+                <div *ngFor='let x of exchangedObjects'>
+                <p-card (click)='getdetails(x)'>
+                    <div class="row">
+                        <div class="col-1">
+                            <img [src]="x.img" alt="itemImage" height="100px" width="100px" style="object-fit: contain;">
+                        </div>
+                        <div class="col-6">
+                            <p>Object Claimed:{{x.type}}</p>
+                            <p>Claimed on:{{x.exchangeDate}}</p>
+                        </div>
+                        <div class="col-5 text-right">
+                            <p>Claimed By:{{x.claimedBy}}</p>
+                            <p>Uploaded By:{{x.uploadedBy}}</p>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        
+    </div>
+</p-panel>
+    </div>
+</div>

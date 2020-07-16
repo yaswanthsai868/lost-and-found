@@ -24,7 +24,7 @@ export class AdmindashboardComponent implements OnInit {
   doLogOut()
   {
     localStorage.removeItem('token')
-    this.router.navigateByUrl('/home')
+    this.router.navigateByUrl('/home/display')
   }
 
 }

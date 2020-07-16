@@ -45,6 +45,9 @@ mongodb.connect(process.env.mongourl,{useUnifiedTopology:true,useNewUrlParser:tr
         app.locals.usercollection=dbObj.db(process.env.mongodbname).collection(process.env.mongousercollection);
         app.locals.admincollection=dbObj.db(process.env.mongodbname).collection(process.env.mongoadmincollection);
         app.locals.resetpasswordcollection=dbObj.db(process.env.mongodbname).collection(process.env.mongoresetpassword)
+        app.locals.foundItemsCollection=dbObj.db(process.env.mongodbname).collection(process.env.foundItems)
+        app.locals.toBeExChangedCollection=dbObj.db(process.env.mongodbname).collection(process.env.tobeexchanged)
+        app.locals.exchangedItemsCollection=dbObj.db(process.env.mongodbname).collection(process.env.exchangeditems)
         console.log('db connected')
         //listening to port 3000
         app.listen(port,()=>{

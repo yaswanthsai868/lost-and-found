@@ -15,18 +15,21 @@ import { EditadmindetailsComponent } from './editadmindetails/editadmindetails.c
 import { ObjectstransactionComponent } from './objectstransaction/objectstransaction.component';
 import {FormsModule} from '@angular/forms';
 import { DeleteuserComponent } from './deleteuser/deleteuser.component';
-import { ChangepasswordComponent } from './changepassword/changepassword.component'
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { TransactiondetailsComponent } from './transactiondetails/transactiondetails.component'
+import {CardModule, Card} from 'primeng/card'
 
 
 @NgModule({
-  declarations: [AdmindashboardComponent, AdmindetailsComponent, LoadDataComponent, AddadminComponent, RemoveadminComponent, EditadmindetailsComponent, ObjectstransactionComponent, DeleteuserComponent, ChangepasswordComponent],
+  declarations: [AdmindashboardComponent, AdmindetailsComponent, LoadDataComponent, AddadminComponent, RemoveadminComponent, EditadmindetailsComponent, ObjectstransactionComponent, DeleteuserComponent, ChangepasswordComponent, TransactiondetailsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ProgressSpinnerModule,
     PanelModule,
     StoreModule.forFeature('adminData',loginReducer),
-    FormsModule
+    FormsModule,
+    CardModule
   ]
 })
 export class AdminModule { }

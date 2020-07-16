@@ -16,6 +16,7 @@ import { VerifyotpComponent } from './verifyotp/verifyotp.component';
 import { HttpinterceptorService } from './httpinterceptor.service';
 import {StoreModule} from '@ngrx/store';
 import {PanelModule} from 'primeng/panel';
+import { BackgroungComponent } from './backgroung/backgroung.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {PanelModule} from 'primeng/panel';
     AdminloginComponent,
     ForgotpasswordComponent,
     ResetpasswordComponent,
-    VerifyotpComponent
+    VerifyotpComponent,
+    BackgroungComponent
   ],
   imports: [
     BrowserModule,

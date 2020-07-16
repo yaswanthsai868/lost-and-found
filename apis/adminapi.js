@@ -9,6 +9,7 @@ const jwt=require('jsonwebtoken')
 
 //importing bcrypt
 const bcrypt=require('bcrypt')
+const { ObjectID } = require('mongodb')
 
 //creting route to admin api
 adminapi=exp.Router()
@@ -231,6 +232,64 @@ adminapi.post('/modifydetails',verifyToken,(req,res)=>{
     });
 })
 
+//to get transactions of exchanges
+adminapi.get('/exchanges',verifyToken,(req,res)=>{
+    exchangedItemCollectionObj=req.app.locals.exchangedItemsCollection
+    exchangedItemCollectionObj.find().toArray((err,exchangedObjects)=>{
+        if(err)
+        {
+            console.log('error while getting the transactions',err)
+        }
+        else
+        {
+            res.send({message:'Data received',data:exchangedObjects})
+        }
+    })
+})
+
+//to get detailed transaction details
+adminapi.post('/transactiondetails',verifyToken,(req,res)=>{
+    exchangedItemCollectionObj=req.app.locals.exchangedItemsCollection
+    exchangedItemCollectionObj.findOne({_id:ObjectID(req.body._id)},(err,exchangeObj)=>{
+        if(err)
+        {
+            console.log('Error while searching the details',err)
+        }
+        else
+        {
+            userCollectionObj=req.app.locals.usercollection
+            userCollectionObj.findOne({username:exchangeObj.uploadedBy},(err,uploadedUser)=>{
+                if(err)
+                {
+                    console.log('error while getting the uplaoder details',err)
+                }
+                else
+                {
+                    userCollectionObj.findOne({username:exchangeObj.claimedBy},(err,claimedUser)=>{
+                        if(err)
+                        {
+                            console.log('error while getting the claimed user details',err)
+                        }
+                        else
+                        {
+                            foundItemsCollectionObj=req.app.locals.foundItemsCollection
+                            foundItemsCollectionObj.findOne({_id:ObjectID(exchangeObj.exchangeditem)},(err,itemObj)=>{
+                                if(err)
+                                {
+                                    console.log('error while getting the claimed item details',err)
+                                }
+                                else
+                                {
+                                    res.send({message:'success',claimedUser:claimedUser,uploadedUser:uploadedUser,claimedItem:itemObj})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
 
 //exporting admin api route
 module.exports=adminapi

@@ -9,6 +9,7 @@ import { EditadmindetailsComponent } from './editadmindetails/editadmindetails.c
 import { ObjectstransactionComponent } from './objectstransaction/objectstransaction.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { DeleteuserComponent } from './deleteuser/deleteuser.component';
+import { TransactiondetailsComponent } from './transactiondetails/transactiondetails.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
     {path:'editadmindetails',component:EditadmindetailsComponent},
     {path:'exchangedhistory',component:ObjectstransactionComponent},
     {path:'changepassword',component:ChangepasswordComponent},
-    {path:'deleteuser',component:DeleteuserComponent}
+    {path:'deleteuser',component:DeleteuserComponent},
+    {path:'transactiondetails/:transactionId',component:TransactiondetailsComponent}
   ]}
 ];
 

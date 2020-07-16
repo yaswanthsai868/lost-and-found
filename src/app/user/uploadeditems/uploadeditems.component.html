@@ -1,1 +1,34 @@
-<p>uploadeditems works!</p>
+<div style="height: 100%;width: 100%;">
+    <div class="Aligner" style="height: 100%;" *ngIf='!dataAvailable'>
+        <div class="Aligner-item">
+            <i class="pi pi-spin pi-spinner" style="position: relative;top: 50%;font-size: 5em;"></i>
+        </div>
+    </div>
+    <div *ngIf='dataAvailable'>
+        <p-panel header='Uploaded Items'>
+            <div *ngIf='uploadedObjects.length==0' class="text-center">
+                <h3>No Uploaded Items</h3>
+            </div>
+            <div *ngIf='uploadedObjects.length!=0'>
+                <div *ngFor='let x of uploadedObjects'>
+                <p-card (click)='getdetails(x)'>
+                    <div class="row">
+                        <div class="col-1">
+                            <img [src]="x.img" alt="itemImage" height="100px" width="100px" style="object-fit: contain;">
+                        </div>
+                        <div class="col-6">
+                            <p>Brand:{{x.brand}}</p>
+                            <p>Model:{{x.model}}</p>
+                            <p>Uploaded on:{{x.founddate}}</p>
+                        </div>
+                        <div class="col-5 text-right">
+                            <p>Status:{{x.claimstatus}}</p>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        
+    </div>
+</p-panel>
+    </div>
+</div>
