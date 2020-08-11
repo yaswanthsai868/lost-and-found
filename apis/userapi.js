@@ -153,7 +153,7 @@ userapi.post('/login',(req,res)=>{
                 }
                 else
                 {
-                    jwt.sign({username:usrObj.username,type:'user'},process.env.hashkey,{expiresIn:10*60},(err,webToken)=>{
+                    jwt.sign({username:usrObj.username,type:'user'},process.env.hashkey,{expiresIn:60*60},(err,webToken)=>{
                         if(err)
                         {
                             console.log('error in generating web token',err)
@@ -425,7 +425,7 @@ userapi.post('/claimItem',verifyToken,(req,res)=>{
                                         from:'electrnica.ekart@gmail.com',
                                         to:req.body.username,
                                         subject:'Otp and Details OF person To exchange Item',
-                                        html:'<p>Your otp is '+otp+'. And the Details of user are, Name:'+uploadedUser.name+', Mobile no:'+uploadedUser.phno+', Email:'+uploadedUser.username+'.</p>'
+                                        html:'<p>Your otp is '+otp+'. And the Details of user are, Name: '+uploadedUser.name+', Mobile no: '+uploadedUser.phno+', Email: '+uploadedUser.username+'.</p>'
                                     }
                                     transporter.sendMail(mailoptions,(err,info)=>{
                                         if(err)
